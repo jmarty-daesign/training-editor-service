@@ -1,0 +1,16 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "object-literal-shorthand": false,
+        "trailing-comma": [false],
+        "semicolon":  [true, "always"],
+        "indent": [true, "spaces", 4]
+    },
+    "rulesDirectory": [
+        "node_modules/tslint-eslint-rules/dist/rules"
+    ]
+}

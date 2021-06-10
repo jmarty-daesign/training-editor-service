@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "plugins": [
+            {
+              "name": "typescript-tslint-plugin",
+              "alwaysShowRuleFailuresAsWarnings": false,
+              "ignoreDefinitionFiles": true,
+              "configFile": "./tslint.json"
+            }
+        ]
+    },
+    "include": [
+        "src/index.ts"
+    ],
+    "exclude": [
+        "src/**/*.spec.ts",
+        "node_modules"
+    ]
+}

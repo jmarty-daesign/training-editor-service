@@ -1,0 +1,56 @@
+{
+  "name": "hello-world-service",
+  "version": "1.0.0",
+  "description": "Academy template for micro-service development",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "apidoc": {
+    "title": "Hello world service API documentation",
+    "template": {
+      "forceLanguage": "en"
+    }
+  },
+  "scripts": {
+    "apidoc": "apidoc -i src/ -o apidoc/",
+    "generateWebserviceRoutes": "npm run rmWebserviceRoutes && npm run apidoc && node generator.js",
+    "rmDist": "rimraf dist",
+    "rmWebserviceRoutes": "rimraf webservice-output.json",
+    "preLaunch": "npm run rmDist && tsc -p tsconfig.json",
+    "forfuture_prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "test": "cross-env SERVER=http://localhost:6668 mocha -r node_modules/ts-node/register src/**/*.spec.ts --exit --timeout 5000",
+    "lint": "tslint -q src/**/**/*",
+    "build": "npm run rmDist && tsc -p tsconfig.prod.json"
+  },
+  "dependencies": {
+    "daesign_pl_lib": "https://github.com/daesign-dev/daesign_pl_lib.git",
+    "dotenv": "^7.0.0",
+    "express": "^4.14.0",
+    "infra_lib_nodejs": "https://github.com/daesign-dev/infra_lib_nodejs.git#v1.10.7",
+    "node-fetch": "^2.6.0",
+    "sso_lib_nodejs": "https://github.com/daesign-dev/sso_lib_nodejs.git",
+    "utils": "https://github.com/daesign-dev/utils.git",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.8.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/chai-json-schema": "^1.4.5",
+    "@types/dotenv": "^6.1.0",
+    "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^7.0.18",
+    "@types/winston": "^2.4.4",
+    "apidoc": "^0.17.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "chai-json-pattern": "^1.1.0",
+    "chai-json-schema": "^1.5.1",
+    "cross-env": "^6.0.3",
+    "mocha": "^6.2.1",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.14.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.6.4"
+  }
+}

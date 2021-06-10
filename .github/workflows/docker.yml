@@ -1,0 +1,51 @@
+name: Build docker image
+on:
+  release:
+    types: [published]
+# on: [push]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [8]
+        env:
+          SECRET: ${{ secrets.SERVICE_SECRET }}
+          SERVICES_DOMAINE: ${{ secrets.SERVICES_DOMAINE }}
+          CORE_DOMAINE: ${{ secrets.CORE_DOMAINE }}
+          WELL_KNOWN: ${{ secrets.WELL_KNOWN }}
+          CONF_URL: ${{ secrets.CONF_URL }}
+          SRV_ID: ${{ secrets.SRV_ID }}
+        steps:
+            - uses: actions/checkout@v1
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Set git credentials
+              run: |
+                  touch ~/.git-credentials
+                  git config --global credential.helper 'store --file ~/.git-credentials'
+                  echo "https://${{ secrets.GH_USER }}:${{ secrets.GH_PAT }}@github.com" >> ~/.git-credentials
+            - name: Run install and build
+              run: |
+                  npm install
+                  npm run build
+            - name: Build with docker compose
+              run: |
+                  docker-compose build
+            - name: Launch docker image and run test
+              run: |
+                  docker-compose up -d
+                  npm run test | tee report.log
+                  docker-compose down
+            - name: Upload server logs
+              uses: actions/upload-artifact@v1
+              with:
+                  name: server.log
+                  path: logs
+            - name: Upload test run report
+              uses: actions/upload-artifact@v1
+              with:
+                  name: report.log
+                  path: report.log
